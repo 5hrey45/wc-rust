@@ -1,17 +1,26 @@
 use std::env;
 use std::fs;
+use std::fs::read;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
 
+    if args.len() == 1 {
+        println!("No arguments specified");
+    } else if args.len() == 2 {
+        let path = &args[1];
+        let fc = read_file(&path);
+
+        let lines = get_lines(&fc);
+        let words = get_words(&fc);
+        let bytes = get_bytes(&fc);
+
+        println!("{}, {}, {}, {}", lines, words, bytes, path);
+    }
     
-    let fc = read_file(String::from("../text.txt"));
-    
-    println!("length of the file is {}", get_bytes(&fc));
-    println!("words in the file is {}", get_words(&fc));
 }
 
-fn read_file(path: String) -> String {
+fn read_file(path: &String) -> String {
     let file_contents = fs::read_to_string(path)
     .expect("Failed to read the file");
 
@@ -25,4 +34,9 @@ fn get_bytes(fc: &String) -> usize {
 fn get_words(fc: &String) -> usize {
     let words: Vec<&str> = fc.split_whitespace().collect();
     words.len()
+}
+
+fn get_lines(fc: &String) -> usize {
+    let lines: Vec<&str> = fc.split("\n").collect();
+    lines.len() - 1
 }
