@@ -1,6 +1,5 @@
 use std::env;
 use std::fs;
-use std::fs::read;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -10,12 +9,24 @@ fn main() {
     } else if args.len() == 2 {
         let path = &args[1];
         let fc = read_file(&path);
-
+        
         let lines = get_lines(&fc);
         let words = get_words(&fc);
         let bytes = get_bytes(&fc);
-
+        
         println!("{}, {}, {}, {}", lines, words, bytes, path);
+    } else if args.len() == 3 {
+        let flag = &args[1];
+        let path = &args[2];
+        let fc = read_file(&path);
+        
+        if flag == "-c" {
+            println!("{}, {}", get_bytes(&fc), path);
+        } else if flag == "-w" {
+            println!("{}, {}", get_words(&fc), path);
+        } else {
+            println!("{}, {}", get_lines(&fc), path);
+        }
     }
     
 }
