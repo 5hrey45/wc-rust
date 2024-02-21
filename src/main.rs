@@ -1,9 +1,9 @@
 use std::fs;
 
 fn main() {
-    let file_contents = read_file(String::from("../text.txt"));
+    let fc = read_file(String::from("../text.txt"));
     
-    println!("{}", file_contents);
+    println!("length of the file is {}", get_bytes(fc));
 }
 
 fn read_file(path: String) -> String {
@@ -11,4 +11,8 @@ fn read_file(path: String) -> String {
     .expect("Failed to read the file");
 
     file_contents
+}
+
+fn get_bytes(fc: String) -> usize {
+    fc.len()
 }
